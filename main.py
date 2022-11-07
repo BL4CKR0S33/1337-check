@@ -33,8 +33,7 @@ while True:
     
     if (results != '#'):
         break
-    else:
-        break
+
 # Send The SMS to me
 
 tb = sendMessage()
