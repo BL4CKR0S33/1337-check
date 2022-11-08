@@ -1,0 +1,4 @@
+requests
+twilio
+lxml
+bs4
