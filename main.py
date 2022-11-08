@@ -30,7 +30,7 @@ while True:
     check = s.get('https://candidature.1337.ma/meetings')
 
     results = autoCheckIn(check.content)
-    
+ 
     if (results != '#'):
         break
 

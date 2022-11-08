@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from lxml import html
+from twilio.rest import Client
 import requests
 import creds
 
@@ -18,14 +19,17 @@ def autoCheckIn(data):
     #Xpath: '//*[@id="subs-banner"]/nav/ul/li[6]/a'
 
     parsed = html.fromstring(data)
-    result = parsed.xpath('//*[@id="subs-banner"]/nav/ul/li[5]/a')
+    result = parsed.xpath('//*[@id="subs-banner"]/nav/ul/li[6]/a')
     return(result[0].attrib['href'])
 
 
 def sendMessage():
-    resp = requests.post('https://textbelt.com/text', {
-        'phone': creds.TARGET,
-        'message': creds.MESSAGE,
-        'key': 'textbelt',
-    })
-    return(resp.json())
+    client = Client(creds.ACCOUNT_SID, creds.AUTH_TOKEN)
+    message = client.messages.create(
+        body=creds.MESSAGE,
+        from_=creds.SENDER,
+        to=creds.TARGET,
+    )
+
+
+
