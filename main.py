@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 
-from gears import getToken, autoCheckIn, sendMessage, addReport, generalReport
+from gears import getToken, autoCheckIn, sendMessage, addReport, sendReport
 from datetime import *
 import requests
 import schedule
 import time
+
+
+
+
 
 postUrl = 'https://candidature.1337.ma/users/sign_in'
 
@@ -12,6 +16,9 @@ date = datetime.strptime("03/02/21 16:30", "%d/%m/%y %H:%M")
 sdate = f'{date.day}/{date.month} - {date.hour}:{date.minute}'
 
 attempts = 0
+
+print(f'[{sdate}] [+] App started successfully.\n')
+print('-----------------------------------------\n')
 
 def login(url):
     session = requests.Session()
@@ -41,18 +48,21 @@ def main():
     results = autoCheckIn(check.content)
     
     attempts += 1
-    print('[!] Try number: {} - Failed.'.format(str(attempts)))
-    
 
-
-    if (results == '#'):
-        data = f'[{sdate}][!] [Try number {attempts}] [Failed]'
+    if (results != '#'):
+        data = f'[CONGRATULATIONS]\n[{sdate}][!] [Try number {attempts}] [Succeded]'
         sendMessage(data)
-    
+        print('\n[+] App ended successfully.\n')
+        exit()
+    else:
+        data = f'[{sdate}][!] [Try number {attempts}] [Failed]\n'
+        print(data)
+        
+        addReport(data)
     s.close()
 
-#schedule.every(6).hours.do(main)
-schedule.every(7).seconds.do(main)
+schedule.every(6).hours.do(main)
+schedule.every(24).hours.do(sendReport)
 
 while True:
     schedule.run_pending()

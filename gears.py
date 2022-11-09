@@ -33,13 +33,18 @@ def sendMessage(body):
 
 def addReport(data):
     with open("./reports/report.txt", "a") as f:
-        f.append(data)
+        f.write(data)
 
-def generalReport(data):
+
+def sendReport():
     with open("./reports/report.txt", "r") as f:
-        report = f.read(data)
-    return(report)
-
+        report = f.read()
+    if (report):
+        sendMessage(report)
+        with open('./reports/report.txt', 'w') as d:
+            d.write('')
+    else:
+        return('[!] There is a problem located in gears.py;line:39>47')
 
 
 
