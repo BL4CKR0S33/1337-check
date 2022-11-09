@@ -4,7 +4,6 @@ from twilio.rest import Client
 import requests
 import creds
 
-
 def getToken(req):
     soup = BeautifulSoup(req, 'html.parser')
     token = soup.find("meta", {"name": "csrf-token"}).attrs['content']
@@ -23,13 +22,29 @@ def autoCheckIn(data):
     return(result[0].attrib['href'])
 
 
-def sendMessage():
+def sendMessage(body):
     client = Client(creds.ACCOUNT_SID, creds.AUTH_TOKEN)
     message = client.messages.create(
-        body=creds.MESSAGE,
+        body=body,
         from_=creds.SENDER,
         to=creds.TARGET,
     )
+
+
+def addReport(data):
+    with open("./reports/report.txt", "a") as f:
+        f.append(data)
+
+def generalReport(data):
+    with open("./reports/report.txt", "r") as f:
+        report = f.read(data)
+    return(report)
+
+
+
+
+
+
 
 
 
