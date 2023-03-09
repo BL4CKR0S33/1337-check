@@ -61,7 +61,10 @@ def main():
         addReport(data)
     s.close()
 
-schedule.every(6).hours.do(main)
+# schedule.every(6).hours.do(main)
+while True:
+        main()
+
 schedule.every(24).hours.do(sendReport)
 
 while True:
