@@ -7,3 +7,6 @@ SENDER = 'whatsapp:+14155238886'
 MESSAGE = 'The 1337 check-in has been started.'
 
 TARGET = 'whatsapp:+212608656801'
+
+SCHOOL_EMAIL = "abdelghanibraimi@outlook.com"
+SCHOOL_PASSWORD = "Tffw2z&Q/!MT&a?"

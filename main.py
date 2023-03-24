@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from gears import getToken, autoCheckIn, sendMessage, addReport, sendReport
+from creds import SCHOOL_EMAIL, SCHOOL_PASSWORD
 from datetime import *
 import requests
 import schedule
@@ -17,10 +18,33 @@ sdate = f'{date.day}/{date.month} - {date.hour}:{date.minute}'
 
 attempts = 0
 
+proxies = { 
+              "http"  : "http://203.30.189.253:80", 
+              "http"  : "http://203.34.28.117:80", 
+              "http"  : "http://173.245.49.102:80", 
+              "http"  : "http://203.23.106.138:80", 
+              "http"  : "http://45.14.174.73:80", 
+              "http"  : "http://203.24.103.252:80", 
+              "http"  : "http://23.227.38.26:80", 
+              "http"  : "http://203.23.103.138:80", 
+              "http"  : "http://203.13.32.182:80", 
+              "http"  : "http://203.30.190.114:80", 
+              "http"  : "http://203.24.108.211:80", 
+              "http"  : "http://188.114.98.153:80", 
+              "http"  : "http://103.21.244.99:80", 
+              "http"  : "http://188.114.99.234:80", 
+              "http"  : "http://45.8.105.89:80", 
+              "http"  : "http://203.32.120.182:80", 
+              "http"  : "http://203.30.189.94:80", 
+              "http"  : "http://185.162.231.49:80", 
+              "http"  : "http://203.24.102.82:80", 
+              "http"  : "http://203.24.103.85:80" 
+}
+
 print(f'[{sdate}] [+] App started successfully.\n')
 print('-----------------------------------------\n')
 
-def login(url):
+def login(url, proxies):
     session = requests.Session()
 
     # Get the token from the meta tag
@@ -30,19 +54,19 @@ def login(url):
     payload = {
         'utf8': "✓",
         'authenticity_token': token,
-        'user[email]': "abdelghanibraimi@outlook.com",
-        'user[password]': "Tffw2z&Q/!MT&a?",
+        'user[email]': SCHOOL_EMAIL,
+        'user[password]': SCHOOL_PASSWORD,
         'commit': "Sign+in"
     }
 
-    res = session.post(url, data=payload)
+    res = session.post(url, data=payload, proxies=proxies)
     return (session)
 
 
 def main():
     global attempts, postUrl, sdate
 
-    s = login(postUrl)
+    s = login(postUrl, proxies)
     check = s.get('https://candidature.1337.ma/meetings')
 
     results = autoCheckIn(check.content)
@@ -63,7 +87,7 @@ def main():
 
 # schedule.every(6).hours.do(main)
 while True:
-        main()
+        main(proxies)
 
 schedule.every(24).hours.do(sendReport)
 
